@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:final_project_tourism/LoginSignups/WelcomeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -9,17 +10,19 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-  void initState() {
-    super.initState();
-    Timer(
-      const Duration(seconds: 2),
-      () => Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (BuildContext context) => const WelcomeScreen(),
-        ),
+void initState() {
+  super.initState();
+  Timer(
+    const Duration(seconds: 3),
+    () => Navigator.of(context).pushReplacement(
+      PageTransition(
+        reverseDuration: Duration(seconds: 2),
+        type: PageTransitionType.leftToRightWithFade,
+        child: const WelcomeScreen(),
       ),
-    );
-  }
+    ),
+  );
+}
 
   @override
   Widget build(BuildContext context) {

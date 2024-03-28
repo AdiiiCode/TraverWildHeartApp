@@ -1,14 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_project_tourism/LoginSignups/Models/users.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
-
   @override
   State<SignUpPage> createState() => _SignUpPageState();
 }
-
 class _SignUpPageState extends State<SignUpPage> {
-  get onPressed => null;
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController phonenumberController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+
+  final _db = FirebaseFirestore.instance;
+
+  createUser() async {
+    final user = userModel(
+      username: usernameController.text,
+      email: emailController.text,
+      phonenumber: phonenumberController.text,
+      password: passwordController.text,
+    );
+
+    await _db.collection("LoginSignups").add(user.toJson()).whenComplete(() => print('abcd'));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,70 +50,97 @@ class _SignUpPageState extends State<SignUpPage> {
             const SizedBox(
               height: 60,
             ),
-            const SizedBox(
+            SizedBox(
               width: 400,
               child: TextField(
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your username',
-                    prefixIcon: Icon(Icons.person),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(6),
-                      ),
+                controller: usernameController,
+                decoration: const InputDecoration(
+                  hintText: 'Enter your username',
+                  prefixIcon: Icon(Icons.person),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(6),
                     ),
                   ),
                 ),
+              ),
             ),
             const SizedBox(
               height: 20.0,
             ),
-            const SizedBox(
+            SizedBox(
               width: 400,
               child: TextField(
-                  decoration: const InputDecoration(
-                    hintText: 'Enter your email',
-                    prefixIcon: Icon(Icons.email),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(6),
-                      ),
+                controller: emailController,
+                decoration: const InputDecoration(
+                  hintText: 'Enter your email',
+                  prefixIcon: Icon(Icons.email),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(6),
                     ),
                   ),
                 ),
+              ),
             ),
-             const SizedBox(
+            const SizedBox(
               height: 20.0,
             ),
-            const SizedBox(
+            SizedBox(
               width: 400,
               child: TextField(
-                  decoration: const InputDecoration(
-                    hintText: 'Enter Password',
-                    prefixIcon: Icon(Icons.password),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(6),
-                      ),
+                controller: phonenumberController,
+                obscureText: true,
+                decoration: const InputDecoration(   
+                  hintText: 'Enter Phonenumber',
+                  prefixIcon: Icon(Icons.password),
+                  suffixIcon: Icon(Icons.remove_red_eye_sharp),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(6),
                     ),
                   ),
                 ),
+              ),
             ),
-             const SizedBox(
+            const SizedBox(
               height: 20.0,
             ),
-            const SizedBox(
+            SizedBox(
               width: 400,
               child: TextField(
-                  decoration: const InputDecoration(
-                    hintText: 'Confirm email',
-                    prefixIcon: Icon(Icons.password_sharp),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(6),
-                      ),
+                controller: passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(   
+                  hintText: 'Enter Password',
+                  prefixIcon: Icon(Icons.password),
+                  suffixIcon: Icon(Icons.remove_red_eye_sharp),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(6),
                     ),
                   ),
                 ),
+              ),
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            SizedBox(
+              width: 400,
+              child: TextField(
+                controller: confirmPasswordController,
+                decoration: const InputDecoration(
+                  hintText: 'Confirm Password',
+                  prefixIcon: Icon(Icons.password_sharp),
+                  suffixIcon: Icon(Icons.remove_red_eye_sharp),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(6),
+                    ),
+                  ),
+                ),
+              ),
             ),
             const SizedBox(
               height: 30,
@@ -104,22 +149,32 @@ class _SignUpPageState extends State<SignUpPage> {
               width: 400,
               height: 50,
               child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.yellow.shade700,
-                    shape: const BeveledRectangleBorder(),
-                    side: const BorderSide(color: Colors.black, width: 0.2),
-                  ),
-                  onPressed: () {
-                  },
-                  child: const Text(
-                    'Signup',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.yellow.shade700,
+                  shape: const BeveledRectangleBorder(),
+                  side: const BorderSide(color: Colors.black, width: 0.2),
                 ),
+                onPressed: () {
+                  createUser();
+                },
+                child: const Text(
+                  'Signup',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
   }
 }

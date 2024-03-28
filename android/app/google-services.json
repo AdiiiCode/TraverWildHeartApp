@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "562201510579",
-    "project_id": "wildheartadventure-b0cbf",
-    "storage_bucket": "wildheartadventure-b0cbf.appspot.com"
+    "project_number": "192195426851",
+    "project_id": "apptourism-ba8d5",
+    "storage_bucket": "apptourism-ba8d5.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:562201510579:android:c913d6d0045b5a352726c6",
+        "mobilesdk_app_id": "1:192195426851:android:6e76b237eac46ffa600f96",
         "android_client_info": {
           "package_name": "com.example.final_project_tourism"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyASU23_D1MGiu-YSKADjr9EeKhyG8zC390"
+          "current_key": "AIzaSyD6MceIzaulRjqVc5JaDkNolnGmJQpmVTE"
         }
       ],
       "services": {

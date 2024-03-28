@@ -65,4 +65,7 @@ flutter {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-bom:32.8.0'
 }
+
+apply plugin: 'com.google.gms.google-services'
