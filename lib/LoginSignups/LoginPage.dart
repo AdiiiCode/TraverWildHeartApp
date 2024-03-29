@@ -1,3 +1,4 @@
+import 'package:final_project_tourism/home.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -6,12 +7,10 @@ class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
-
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
   @override
   void dispose() {
     _emailController.dispose();
@@ -114,7 +113,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // Login logic here
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return HomePage(email: _emailController.text);
+                        },),);
                       }
                     },
                     child: const Text(
