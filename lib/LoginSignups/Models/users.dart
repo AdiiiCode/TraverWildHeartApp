@@ -24,6 +24,7 @@ this.phonenumber
     "email": email,
     "password": password,
     "phonenumber":phonenumber,
+
   };
  }
 
