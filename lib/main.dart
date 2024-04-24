@@ -1,3 +1,6 @@
+import 'package:final_project_tourism/LoginSignups/SignUpPage.dart';
+import 'package:final_project_tourism/LoginSignups/otpScreen.dart';
+import 'package:final_project_tourism/home.dart';
 import 'package:final_project_tourism/splashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +19,7 @@ Future main() async{
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: HomePage(),
     ),
   );
 }

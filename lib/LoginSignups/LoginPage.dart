@@ -114,7 +114,8 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          return HomePage(email: _emailController.text);
+                          return HomePage();
+                          // email: _emailController.text
                         },),);
                       }
                     },

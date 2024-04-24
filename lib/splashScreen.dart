@@ -29,7 +29,7 @@ void initState() {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Image.asset('images/abcd.jpg'),
+        child: Image.asset('images/abcd.jpg',),
       ),
     );
   }

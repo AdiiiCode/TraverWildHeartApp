@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project_tourism/LoginSignups/Models/users.dart';
 import 'package:final_project_tourism/LoginSignups/otpScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -12,17 +15,49 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController usernameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController __emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController phonenumberController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
   final _db = FirebaseFirestore.instance;
 
+  late String _otp;
+
+  @override
+  void initState() {
+    super.initState();
+    _otp = _generateOTP();
+    _sendEmail();
+  }
+
+  String _generateOTP() {
+    // Generate a random 6-digit OTP
+    final random = Random();
+    return (100000 + random.nextInt(900000)).toString();
+  }
+
+  Future<void> _sendEmail() async {
+    final smtpServer = gmail('buniversity4@gmail.com', 'Adeel@123044');
+    final message = Message()
+      ..from = Address('your_email@gmail.com', 'Your Name')
+      ..recipients.add(__emailController.text)
+      ..subject = 'OTP for WildHerart Adventures'
+      ..text = 'Your OTP is: $_otp';
+
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ' + sendReport.toString());
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+
   createUser() async {
     final user = userModel(
       username: usernameController.text,
-      email: emailController.text,
+      email: __emailController.text,
       phonenumber: phonenumberController.text,
       password: passwordController.text,
     );
@@ -81,7 +116,7 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                 width: 400,
                 child: TextFormField(
-                  controller: emailController,
+                  controller: __emailController,
                   validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your email';
@@ -191,13 +226,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     side: const BorderSide(color: Colors.black, width: 0.2),
                   ),
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      createUser();
+                    // if (_formKey.currentState!.validate()) {
+                      // createUser();
+                      _sendEmail();
                         Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return const OtpScreen();
+                      return OtpScreen(email: __emailController.text);
                     }));
-                      }
-                    
+                      // }
                   },
                   child: const Text(
                     'Signup',
@@ -215,7 +250,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   void dispose() {
     usernameController.dispose();
-    emailController.dispose();
+    __emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
