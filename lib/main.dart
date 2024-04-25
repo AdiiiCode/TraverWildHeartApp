@@ -1,3 +1,4 @@
+import 'package:final_project_tourism/ChatBot/ChatPage.dart';
 import 'package:final_project_tourism/LoginSignups/SignUpPage.dart';
 import 'package:final_project_tourism/LoginSignups/otpScreen.dart';
 import 'package:final_project_tourism/home.dart';
@@ -19,7 +20,7 @@ Future main() async{
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: ChatScreen(),
     ),
   );
 }

@@ -1,3 +1,4 @@
+import 'package:final_project_tourism/ReusesWidgets/TripsDescriptions.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -91,113 +92,46 @@ class HomePage extends StatelessWidget {
             height: 5,
           ),
           Container(
+            decoration: BoxDecoration(
+              border: Border.all()
+            ),
             padding: const EdgeInsets.only(
                 left: 10, right: 10, top: 5.0, bottom: 5.0),
             margin: const EdgeInsets.only(left: 10, right: 10),
-            decoration: BoxDecoration(
-              border: Border.all(),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(5),
-              ),
-            ),
-            child: SingleChildScrollView(
+            child: const SingleChildScrollView(
               physics: ScrollPhysics(),
               scrollDirection: Axis.horizontal,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                          'images/Mushk.jpeg',
-                          width: 200,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "Mushkpuri Top NathiaGali",
-                        style: TextStyle(
-                            fontSize: 12.0, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "Click Here For details",
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: Colors.blue.shade700,
-                        ),
-                      ),
-                    ],
-                  ),
+                  Descrip('images/Mushk.jpeg', 'Mushkpuri Top NathiaGali', 'Click Here For details'),
                   SizedBox(
                     width: 20,
                   ),
-                  Text('abcd'),
+                  Descrip('images/Tolipeer.jpg', 'Tolipeer Top Azad Kashmir', 'Click Here For details'),
                   SizedBox(
-                    width: 50,
+                    width: 20,
                   ),
-                  Text('abcd'),
+                  Descrip('images/Hunnzaa.jpg', 'Hunza Valley Gilgit Baltistan', 'Click Here For details'),
                   SizedBox(
-                    width: 50,
+                    width: 20,
                   ),
-                  Text('abcd'),
+                  Descrip('images/Swatt.jpg', 'Swat Valley KPK', 'Click Here For details'),
                   SizedBox(
-                    width: 50,
+                    width: 20,
                   ),
-                  Text('abcd'),
-                  Text('abcd'),
+                  Descrip('images/Babusar.jpg', 'Babusar Top KPK', 'Click Here For details'),
                   SizedBox(
-                    width: 50,
+                    width: 20,
                   ),
-                  Text('abcd'),
+                  Descrip('images/Warr.jpg', 'Warwan Valley Azad Kashmir', 'Click Here For details'),
                   SizedBox(
-                    width: 50,
+                    width: 20,
                   ),
-                  Text('abcd'),
+                  Descrip('images/Ban.jpg', 'Warwan Valley Azad Kashmir', 'Click Here For details'),
                   SizedBox(
-                    width: 50,
+                    width: 20,
                   ),
-                  Text('abcd'),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  Text('abcd'),
-                  Text('abcd'),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  Text('abcd'),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  Text('abcd'),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  Text('abcd'),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  Text('abcd'),
-                  Text('abcd'),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  Text('abcd'),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  Text('abcd'),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  Text('abcd'),
-                  SizedBox(
-                    width: 50,
-                  ),
-                  Text('abcd'),
                 ],
               ),
             ),
