@@ -79,7 +79,7 @@ class _ChatScreenState extends State<ChatScreen> {
               decoration: BoxDecoration(color: Theme.of(context).cardColor),
               child: TextField(
                 onSubmitted: (value) {
-                  setState(() async {
+                  setState(() {
                     _messages.add({
                       'sender': 'You',
                       'text': value,
@@ -95,38 +95,38 @@ class _ChatScreenState extends State<ChatScreen> {
                       });
                     } else if (value.toLowerCase() ==
                         'do you travel outside pakistan') {
-                           await Future.delayed(Duration(seconds: 1), () {
-                      setState(() {
+                      //      await Future.delayed(Duration(seconds: 1), () {
+                      // setState(() {
                       _messages.add({
                         'sender': 'ChatBot',
                         'text':
                             'No, Sorry WildHeart Adventure is only Arrange Trips Indside the Pakistan only\nAnd In Future We Plan to Visit Country Like Turkey and Azerbijan',
                         'isMe': false,
                       });
-                      });
-                      });
+                      // });
+                      // });
                     } else if (value.toLowerCase() ==
                         'what are trip durations') {
-                          await Future.delayed(Duration(seconds: 1), () {
-                      setState(() {
+                      //     await Future.delayed(const Duration(seconds: 1), () {
+                      // setState(() {
                       _messages.add({
                         'sender': 'ChatBot',
                         'text':
                             'The Normal Trip is of One Day and in Summers Vacations or Winters we Have Trips of 1 Week or 3-4 days ',
                         'isMe': false,
                       });
-                      });});
+                      // });});
                     } else if (value.toLowerCase() ==
                         'what accomandation you provide in trip') {
-                          await Future.delayed(const Duration(seconds: 1), () {
-                      setState(() {
+                      //     await Future.delayed(const Duration(seconds: 1), () {
+                      // setState(() {
                       _messages.add({
                         'sender': 'ChatBot',
                         'text':
                             'Our Trips Includes The Best Deal For you\nFood\nNightStays\nPhotography\nJamming Sessions',
                         'isMe': false,
-                      });
-                      });
+                      // });
+                      // });
                       });
                     } else {
                       _messages.add({
