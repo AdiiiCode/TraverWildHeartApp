@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:192195426851:android:6e76b237eac46ffa600f96",
+        "mobilesdk_app_id": "1:192195426851:android:2917c1a70d079b5c600f96",
         "android_client_info": {
-          "package_name": "com.example.final_project_tourism"
+          "package_name": "com.example.final_project_tourisma"
         }
       },
       "oauth_client": [],

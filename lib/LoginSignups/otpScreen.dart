@@ -1,5 +1,4 @@
 import 'package:final_project_tourism/LoginSignups/LoginPage.dart';
-import 'package:final_project_tourism/home.dart';
 import 'package:flutter/material.dart';
 class OtpScreen extends StatefulWidget {
   final String email;

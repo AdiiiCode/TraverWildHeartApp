@@ -1,5 +1,9 @@
-import 'package:final_project_tourism/home.dart';
+import 'package:final_project_tourism/HomePage/OpenPage.dart';
+import 'package:final_project_tourism/LoginSignups/SignUpPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:final_project_tourism/HomePage/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -7,15 +11,46 @@ class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
+
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
+
+  Future<void> _loginWithEmailAndPassword() async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      // Login successful, navigate to next page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const OpenPage(),
+        ),
+      );
+    } catch (e) {
+      // Login failed, show error message
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Error"),
+            content: const Text("Invalid email or password"),
+            actions: <Widget>[
+              TextButton(
+                child: const Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close dialog
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -29,11 +64,11 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'images/Welcome.png',
+                  'assets/images/Welcome.png',
                   width: 250,
                 ),
                 const Text(
-                  'Welcome to WildHerart Adventures',
+                  'Welcome to Adeel Travelers',
                   style: TextStyle(
                     fontSize: 24.0,
                   ),
@@ -107,37 +142,44 @@ class _LoginPageState extends State<LoginPage> {
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.yellow.shade700,
+                      backgroundColor: Colors.black,
                       shape: const BeveledRectangleBorder(),
                       side: const BorderSide(color: Colors.black, width: 0.2),
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          return HomePage();
-                          // email: _emailController.text
-                        },),);
+                        _loginWithEmailAndPassword();
+                     
                       }
                     },
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                    child: const Text('Login',
+                    
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                      color: Colors.white
+                    ),),
                   ),
                 ),
                 const SizedBox(height: 10),
-                Text.rich(
-                  TextSpan(
-                    text: 'Don\'t have an Account? New Here ',
-                    children: [
-                      TextSpan(
-                        text: 'Signup',
-                        style: TextStyle(
-                          color: Colors.lightBlue.shade900,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                  const Text(
+                    'Don\'t have an Account? New Here ',
+                     ),
+                    
+                       
+                        GestureDetector(
+                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpPage())),
+                          child: Text(
+                            'Signup',
+                            style: TextStyle(
+                              color: Colors.lightBlue.shade900,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                  ]
                 ),
               ],
             ),

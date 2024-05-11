@@ -1,8 +1,12 @@
-import 'package:final_project_tourism/ChatBot/ChatPage.dart';
+import 'package:final_project_tourism/HomePage/home.dart';
+import 'package:final_project_tourism/splashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-Future main() async{
+Future<void> main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+
   await Firebase.initializeApp(
     options: const FirebaseOptions(
       apiKey: "AIzaSyD6MceIzaulRjqVc5JaDkNolnGmJQpmVTE",
@@ -14,9 +18,10 @@ Future main() async{
     ),
   );
   runApp(
-    MaterialApp(
+    
+     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ChatScreen(),
+      home: HomePage(),
     ),
   );
 }

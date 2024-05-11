@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:final_project_tourism/LoginSignups/WelcomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:final_project_tourism/LoginSignups/WelcomeScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -9,27 +9,42 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  bool _showImage = false;
+
   @override
-void initState() {
-  super.initState();
-  Timer(
-    const Duration(seconds: 3),
-    () => Navigator.of(context).pushReplacement(
-      PageTransition(
-        reverseDuration: Duration(seconds: 2),
-        type: PageTransitionType.leftToRightWithFade,
-        child: const WelcomeScreen(),
+  void initState() {
+    super.initState();
+    Timer(
+      const Duration(seconds: 2),
+      () => setState(() {
+        _showImage = true;
+      }),
+    );
+    Timer(
+      const Duration(seconds: 4),
+      () => Navigator.of(context).pushReplacement(
+        PageTransition(
+          reverseDuration: const Duration(seconds: 2),
+          type: PageTransitionType.leftToRightWithFade,
+          child: const WelcomeScreen(),
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Image.asset('images/abcd.jpg',),
+        child: AnimatedOpacity(
+          opacity: _showImage ? 1.0 : 0.0,
+          duration: const Duration(seconds: 2),
+          child: Transform.scale(
+            scale: _showImage ? 1.0 : 0.5,
+            child: Image.asset('assets/images/abcd.jpg'),
+          ),
+        ),
       ),
     );
   }
