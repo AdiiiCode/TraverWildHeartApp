@@ -1,28 +1,22 @@
 import 'package:final_project_tourism/ChatBot/chat_page.dart';
-import 'package:final_project_tourism/HomePage/SliderPage/slider_page.dart';
-import 'package:final_project_tourism/HomePage/Trips/premium_trips.dart';
-import 'package:final_project_tourism/HomePage/Trips/top_trips.dart';
-import 'package:final_project_tourism/HomePage/Trips/weekly_trips.dart';
+import 'package:final_project_tourism/HomePage/BookHotels.dart/book_hotel.dart';
+import 'package:final_project_tourism/HomePage/home.dart';
 import 'package:flutter/material.dart';
-class HomePage extends StatefulWidget {
+
+class ChooseUsers extends StatefulWidget {
   final String name;
-  const HomePage(this.name,{super.key});
+  const ChooseUsers(this.name,{super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<ChooseUsers> createState() => _ChooseUsersState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ChooseUsersState extends State<ChooseUsers> {
   bool _isSearching = false;
-
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Scaffold(
-        appBar: PreferredSize(
+    return Scaffold(
+       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(100.0),
           child: AppBar(
             // bottom: const BorderRadius.only(bottomLeft: Circular(5)),
@@ -86,21 +80,64 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SliderPage(),
-              const SizedBox(height: 10),
-              PremiumTrips(widget.name), // Pass the name dynamically
-              const SizedBox(height: 20),
-              WeeklyTrips(widget.name),
-              const SizedBox(height: 20),
-              TopTrips(widget.name),
-            ],
-          ),
+      body: 
+      Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+                            SizedBox(
+                    width: 400,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        shape: const BeveledRectangleBorder(),
+                        side: const BorderSide(color: Colors.black, width: 0.2),
+                      ),
+                      onPressed: () {
+                       Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage(widget.name)));
+                      },
+                      child:  const Text(
+                            'Go To Home Page',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                    ),
+                  ),
+        
+                  const SizedBox(height: 20,),
+        
+                                   SizedBox(
+                    width: 400,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        shape: const BeveledRectangleBorder(),
+                        side: const BorderSide(color: Colors.black, width: 0.2),
+                      ),
+                      onPressed: () {
+                       Navigator.push(context, MaterialPageRoute(builder: (context)=> HotelPage(widget.name)));
+                       
+                      },
+                      child:  const Text(
+                            'Book A Hotel',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                    ),
+                  ),
+          ],
         ),
-        floatingActionButton: FloatingActionButton(
+       
+      ),
+       floatingActionButton: FloatingActionButton(
           onPressed: () {
             showModalBottomSheet(
               context: context,
@@ -119,7 +156,6 @@ class _HomePageState extends State<HomePage> {
             color: Colors.white,
           ),
         ),
-      ),
     );
   }
 }

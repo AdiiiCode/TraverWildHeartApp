@@ -5,7 +5,7 @@ class ChatBubble extends StatelessWidget {
   final String text;
   final bool isMe;
 
-  const ChatBubble({
+  const ChatBubble({super.key, 
     required this.sender,
     required this.text,
     required this.isMe,
@@ -34,7 +34,7 @@ class ChatBubble extends StatelessWidget {
             : MainAxisAlignment.end,
         children: [
           Container(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
               color: isMe ? Colors.blue[200] : Colors.green[200],
               borderRadius: radius,
@@ -46,7 +46,7 @@ class ChatBubble extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 10.0),
+          const SizedBox(width: 10.0),
           Text(
             sender,
             style: TextStyle(

@@ -8,7 +8,7 @@ TextField reusableField(String text, IconData icon, bool isPass, String hint, Te
     decoration: InputDecoration(
       hintText: 'Enter your $hint here', // Use the provided hint text
       prefixIcon: Icon(icon),
-      border: OutlineInputBorder(
+      border: const OutlineInputBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(6),
         ),

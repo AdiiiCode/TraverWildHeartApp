@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Billing extends StatefulWidget {
-  const Billing({Key? key}) : super(key: key);
+  const Billing({super.key});
 
   @override
   State<Billing> createState() => _BillingState();
@@ -15,7 +15,7 @@ class _BillingState extends State<Billing> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(250, 20, 0, 0),
             child: Text(
               "Payment",
@@ -26,7 +26,7 @@ class _BillingState extends State<Billing> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(250, 30, 250, 0),
+            padding: const EdgeInsets.fromLTRB(250, 30, 250, 0),
             child: Container(
               height: 350,
               width: double.infinity,
@@ -40,24 +40,24 @@ class _BillingState extends State<Billing> {
                     color: Colors.grey.withOpacity(0.2), // Shadow color
                     spreadRadius: 2, // Spread radius
                     blurRadius: 4, // Blur radius
-                    offset: Offset(0, 2), // Offset
+                    offset: const Offset(0, 2), // Offset
                   ),
                 ],
               ),
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
                     width: double.infinity,
                     height: 70,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Color.fromARGB(255, 1, 4, 180),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(18.0),
                         topRight: Radius.circular(18.0),
                       ),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
@@ -83,10 +83,10 @@ class _BillingState extends State<Billing> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
@@ -107,10 +107,10 @@ class _BillingState extends State<Billing> {
                           )),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
@@ -130,13 +130,13 @@ class _BillingState extends State<Billing> {
                           )),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Container(
                     width: double.infinity,
                     height: 50,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Color.fromARGB(255, 1, 4, 180),
                       border: Border(
                         bottom: BorderSide(
@@ -146,7 +146,7 @@ class _BillingState extends State<Billing> {
                         ),
                       ),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
@@ -169,7 +169,7 @@ class _BillingState extends State<Billing> {
                   Container(
                     width: double.infinity,
                     height: 50,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Color.fromARGB(255, 1, 4, 180),
                       border: Border(
                         bottom: BorderSide(
@@ -179,7 +179,7 @@ class _BillingState extends State<Billing> {
                         ),
                       ),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
@@ -201,7 +201,7 @@ class _BillingState extends State<Billing> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 20, 20, 10),
+                    padding: const EdgeInsets.fromLTRB(0, 20, 20, 10),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -219,17 +219,17 @@ class _BillingState extends State<Billing> {
                               //   ),
                               // );
                             },
-                            child: Text(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color.fromARGB(255, 1, 4, 180),
+                            ),
+                            child: const Text(
                               "Pay With Credit Card",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 8.0),
                             ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color.fromARGB(255, 1, 4, 180),
-                            ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         SizedBox(
@@ -237,13 +237,13 @@ class _BillingState extends State<Billing> {
                           height: 30,
                           child: ElevatedButton(
                             onPressed: () {},
-                            child: Text(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color.fromARGB(255, 1, 4, 180),
+                            ),
+                            child: const Text(
                               "PayPal",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 8.0),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color.fromARGB(255, 1, 4, 180),
                             ),
                           ),
                         )

@@ -1,28 +1,47 @@
 import 'package:final_project_tourism/ChatBot/chat_page.dart';
-import 'package:final_project_tourism/HomePage/SliderPage/slider_page.dart';
-import 'package:final_project_tourism/HomePage/Trips/premium_trips.dart';
-import 'package:final_project_tourism/HomePage/Trips/top_trips.dart';
-import 'package:final_project_tourism/HomePage/Trips/weekly_trips.dart';
+import 'package:final_project_tourism/HomePage/BookHotels.dart/hotel_card.dart';
+import 'package:final_project_tourism/HomePage/BookHotels.dart/reserve_hotel.dart';
 import 'package:flutter/material.dart';
-class HomePage extends StatefulWidget {
-  final String name;
-  const HomePage(this.name,{super.key});
+
+class HotelPage extends StatefulWidget {
+final String name;
+   const HotelPage(this.name,{super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HotelPage> createState() => _HotelPageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  bool _isSearching = false;
+class _HotelPageState extends State<HotelPage> {
+    bool _isSearching = false;
+  final List<Hotel> hotels = [
+    Hotel(
+      name: 'The Avari Hotel',
+      description: 'Luxurious rooms with a beautiful view.',
+      imageUrl: 'Hotels/avari.jpg',
+      price: '10,000 Rs / Night',
+    ),
+    Hotel(
+      name: 'The 108 Hotel',
+      description: 'Convenient location with modern amenities.',
+      imageUrl: 'Hotels/avari.jpg',
+      price: '8,000 Rs / Night',
+
+    ),
+    Hotel(
+      name: 'The 4 Points Hotel',
+      description: 'Panaromic View And Luxury Rooms',
+      imageUrl: 'Hotels/4pionts.jpg',
+      price: '15,000 Rs / Night',
+
+    ),
+    // Add more hotels as needed
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Scaffold(
-        appBar: PreferredSize(
+  
+    return Scaffold(
+      appBar: PreferredSize(
           preferredSize: const Size.fromHeight(100.0),
           child: AppBar(
             // bottom: const BorderRadius.only(bottomLeft: Circular(5)),
@@ -86,21 +105,21 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SliderPage(),
-              const SizedBox(height: 10),
-              PremiumTrips(widget.name), // Pass the name dynamically
-              const SizedBox(height: 20),
-              WeeklyTrips(widget.name),
-              const SizedBox(height: 20),
-              TopTrips(widget.name),
-            ],
-          ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView.builder(
+          itemCount: hotels.length,
+          itemBuilder: (context, index) {
+            final hotel = hotels[index];
+            return GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>SubmitHotel(widget.name, hotel.name, hotel.price)));
+              },
+              child: HotelCard(hotel: hotel));
+          },
         ),
-        floatingActionButton: FloatingActionButton(
+      ),
+              floatingActionButton: FloatingActionButton(
           onPressed: () {
             showModalBottomSheet(
               context: context,
@@ -119,7 +138,14 @@ class _HomePageState extends State<HomePage> {
             color: Colors.white,
           ),
         ),
-      ),
     );
   }
+}
+
+class Hotel {
+  final String name;
+  final String description;
+  final String imageUrl;
+final String price;
+  Hotel({required this.name, required this.description, required this.imageUrl, required  this.price});
 }

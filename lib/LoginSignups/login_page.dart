@@ -1,12 +1,13 @@
-import 'package:final_project_tourism/HomePage/OpenPage.dart';
-import 'package:final_project_tourism/LoginSignups/SignUpPage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:final_project_tourism/HomePage/home.dart';
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_project_tourism/HomePage/open_page.dart';
+import 'package:final_project_tourism/LoginSignups/signup_page.dart';
+import 'package:final_project_tourism/LoginSignups/otp_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -16,22 +17,57 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool obscureText = true;
+  bool _isLoading = false; 
 
   Future<void> _loginWithEmailAndPassword() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
+      // UserCredential userCredential =
+      //     await FirebaseAuth.instance.signInWithEmailAndPassword(
+      //   email: _emailController.text,
+      //   password: _passwordController.text,
+      // );
+      DocumentSnapshot userDoc = (await FirebaseFirestore.instance.collection('users').where('email', isEqualTo: _emailController.text).get()).docs.first;
+      // print("User Doc: ${userDoc.data()}");
+      if (userDoc.exists) {
+        String username = userDoc['username'];
+
+        await Future.delayed(const Duration(seconds: 3)); // Simulate loading for 3 seconds
+
+        // Login successful, navigate to next page with username
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OpenPage(username),
+          ),
+        );
+      } else {
+        showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Error"),
+            content: const Text("User not found in Firestore"),
+            actions: <Widget>[
+              TextButton(
+                child: const Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close dialog
+                },
+              ),
+            ],
+          );
+        },
       );
-      // Login successful, navigate to next page
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const OpenPage(),
-        ),
-      );
+        throw Exception("User not found in Firestore");
+      }
     } catch (e) {
+      await Future.delayed(const Duration(seconds: 2)); // Simulate loading for 3 seconds
+
       // Login failed, show error message
       showDialog(
         context: context,
@@ -50,6 +86,10 @@ class _LoginPageState extends State<LoginPage> {
           );
         },
       );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -107,30 +147,39 @@ class _LoginPageState extends State<LoginPage> {
                   height: 20.0,
                 ),
                 SizedBox(
-                  width: 400,
-                  child: TextFormField(
-                    controller: _passwordController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      return null;
-                    },
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your password here',
-                      prefixIcon: Icon(Icons.lock),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(6),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+  width: 400,
+  child: TextFormField(
+    controller: _passwordController,
+    validator: (value) {
+      if (value == null || value.isEmpty) {
+        return 'Please enter your password';
+      }
+      return null;
+    },
+    obscureText: obscureText,
+    decoration: InputDecoration(
+      hintText: 'Enter your password here',
+      prefixIcon: const Icon(Icons.lock),
+      suffixIcon: GestureDetector(
+        onTap: () {
+          setState(() {
+            obscureText = !obscureText;
+          });
+        },
+        child: const Icon(Icons.remove_red_eye),
+      ),
+      border: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(6),
+        ),
+      ),
+    ),
+  ),
+),
+
                 GestureDetector(
                   onTap: () {
-                    // Handle forget password
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const OtpScreen()));
                   },
                   child: const Text('Forget Password'),
                 ),
@@ -149,37 +198,40 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _loginWithEmailAndPassword();
-                     
                       }
                     },
-                    child: const Text('Login',
-                    
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                      color: Colors.white
-                    ),),
+                    child: _isLoading
+                      ? const CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        )
+                      : const Text(
+                          'Login',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                            color: Colors.white,
+                          ),
+                        ),
                   ),
                 ),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                  const Text(
-                    'Don\'t have an Account? New Here ',
-                     ),
-                    
-                       
-                        GestureDetector(
-                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignUpPage())),
-                          child: Text(
-                            'Signup',
-                            style: TextStyle(
-                              color: Colors.lightBlue.shade900,
-                            ),
-                          ),
+                    const Text('Don\'t have an Account? New Here '),
+                    GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SignUpPage()),
+                      ),
+                      child: Text(
+                        'Signup',
+                        style: TextStyle(
+                          color: Colors.lightBlue.shade900,
                         ),
-                  ]
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

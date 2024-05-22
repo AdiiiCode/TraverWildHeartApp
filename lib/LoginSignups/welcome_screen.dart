@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:final_project_tourism/LoginSignups/LoginPage.dart';
-import 'package:final_project_tourism/LoginSignups/SignUpPage.dart';
+import 'package:final_project_tourism/LoginSignups/login_page.dart';
+import 'package:final_project_tourism/LoginSignups/signup_page.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+  const WelcomeScreen({super.key});
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();
@@ -67,14 +67,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       style: ElevatedButton.styleFrom(
                         fixedSize: const Size(150, 40),
                         backgroundColor: Colors.white,
-                        shape: const BeveledRectangleBorder(),
+                               shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
                         side: const BorderSide(color: Colors.black, width: 0.2),
                       ),
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LoginPage(),
+                            builder: (context) => const LoginPage(),
                           ),
                         );
                       },
@@ -87,8 +89,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         fixedSize: const Size(150, 40),
+                         shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
                         backgroundColor: Colors.black,
-                        shape: const BeveledRectangleBorder(),
                         side: const BorderSide(color: Colors.black, width: 0.2),
                       ),
                       onPressed: () {

@@ -5,15 +5,15 @@ class ChatBubble extends StatelessWidget {
   final String text;
   final bool isMe;
 
-  ChatBubble({required this.sender, required this.text, required this.isMe});
+  const ChatBubble({super.key, required this.sender, required this.text, required this.isMe});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: isMe
-          ? EdgeInsets.only(top: 8, bottom: 8, left: 80)
-          : EdgeInsets.only(top: 8, bottom: 8, right: 80),
-      padding: EdgeInsets.all(10),
+          ? const EdgeInsets.only(top: 8, bottom: 8, left: 80)
+          : const EdgeInsets.only(top: 8, bottom: 8, right: 80),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: isMe ? Colors.blue : Colors.grey,
         borderRadius: BorderRadius.circular(10),
@@ -43,7 +43,10 @@ class ChatBubble extends StatelessWidget {
 }
 
 class ChatScreen extends StatefulWidget {
+  const ChatScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _ChatScreenState createState() => _ChatScreenState();
 }
 

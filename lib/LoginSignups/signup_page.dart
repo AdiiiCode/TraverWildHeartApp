@@ -1,6 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_project_tourism/LoginSignups/LoginPage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:final_project_tourism/LoginSignups/login_page.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -19,6 +20,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
+  bool obscureText = true;
+  bool obscureText1 = true;
 
   @override
   @override
@@ -114,7 +117,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
               ),
-               const SizedBox(
+              const SizedBox(
                 height: 20.0,
               ),
               SizedBox(
@@ -127,12 +130,19 @@ class _SignUpPageState extends State<SignUpPage> {
                     }
                     return null;
                   },
-                  obscureText: true,
-                  decoration: const InputDecoration(
+                  obscureText: obscureText,
+                  decoration: InputDecoration(
                     hintText: 'Enter Password',
-                    prefixIcon: Icon(Icons.password),
-                    suffixIcon: Icon(Icons.remove_red_eye_sharp),
-                    border: OutlineInputBorder(
+                    prefixIcon: const Icon(Icons.password),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          obscureText = !obscureText;
+                        });
+                      },
+                      child: const Icon(Icons.remove_red_eye),
+                    ),
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(6),
                       ),
@@ -153,12 +163,19 @@ class _SignUpPageState extends State<SignUpPage> {
                     }
                     return null;
                   },
-                  obscureText: true,
-                  decoration: const InputDecoration(
+                  obscureText: obscureText1,
+                  decoration: InputDecoration(
                     hintText: 'Confirm Password',
-                    prefixIcon: Icon(Icons.password_sharp),
-                    suffixIcon: Icon(Icons.remove_red_eye_sharp),
-                    border: OutlineInputBorder(
+                    prefixIcon: const Icon(Icons.password),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          obscureText1 = !obscureText1;
+                        });
+                      },
+                      child: const Icon(Icons.remove_red_eye),
+                    ),
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(6),
                       ),
@@ -178,32 +195,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     shape: const BeveledRectangleBorder(),
                     side: const BorderSide(color: Colors.black, width: 0.2),
                   ),
-                  onPressed: () async{
-                    if (_formKey.currentState!.validate()) {
-                       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                          email: emailController.text,
-                          password: passwordController.text,
-                        );
-                      // Access Firestore instance
-                      FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-                      // Add a new document with a generated ID
-                      firestore.collection('users').add({
-                        'username': usernameController.text,
-                        'email': emailController.text,
-                        'phonenumber': phoneController.text,
-                        'password': passwordController.text,
-                      }).then((value) {
-                        // Document added successfully
-                        print("User added with ID: ${value.id}");
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginPage()));
-                      }).catchError((error) {
-                        print("Failed to add user: $error");
-                      });
-                    }
+                  onPressed: () async {
+                    _submitForm();
                   },
                   child: const Text(
                     'Signup',
@@ -218,10 +211,85 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  void _submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        // Check if email already exists
+        QuerySnapshot emailSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .where('email', isEqualTo: emailController.text)
+            .get();
+
+        if (emailSnapshot.docs.isNotEmpty) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Error"),
+                content: const Text("Email already linked with an account"),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text("OK"),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close dialog
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          // Create new user
+          // UserCredential userCredential =
+          //     await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          //   email: emailController.text,
+          //   password: passwordController.text,
+          // );
+
+          // Add user data to Firestore
+          FirebaseFirestore firestore = FirebaseFirestore.instance;
+          await firestore.collection('users').add({
+            'username': usernameController.text,
+            'email': emailController.text,
+            'phonenumber': phoneController.text,
+            'password': passwordController.text,
+          });
+
+          // User added successfully, navigate to login page
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+          );
+        }
+      } catch (e) {
+        // print("Error creating user: $e");
+        // Handle error creating user
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Error"),
+              content: const Text("Failed to create user. Please try again."),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close dialog
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+  }
+
   @override
   void dispose() {
     usernameController.dispose();
     emailController.dispose();
+    phoneController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();

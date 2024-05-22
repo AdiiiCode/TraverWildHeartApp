@@ -1,4 +1,6 @@
-import 'package:final_project_tourism/services/firebaseFunctions.dart';
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
+
+import 'package:final_project_tourism/services/firebase_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 class AuthServices {
